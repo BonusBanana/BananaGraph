@@ -1,0 +1,47 @@
+type Teacher {
+	id: ID!
+	creationDate: String
+	firstname: String!
+	middlename: String
+	lastname: String!
+	age: Int!
+	gender: String
+	title: String!
+}
+type Student {
+	id: ID!
+	creationDate: String
+	firstname: String!
+	middlename: String
+	lastname: String!
+	age: Int!
+	gender: String
+	nickname: String!
+	questions: Questions
+}
+type Question {
+	id: ID!
+	creationDate: String
+	name: String!
+	text: String!
+}
+type Teachers {
+	data: [Teacher]
+	cursor: ID
+}
+type Students {
+	data: [Student]
+	cursor: ID
+}
+type Questions {
+	data: [Question]
+	cursor: ID
+}
+type Query {
+  # ### GET all users
+  #
+  students: Students
+  # ### GET all teachers
+  #
+  teachers: Teachers
+}

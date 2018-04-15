@@ -1,0 +1,142 @@
+scalar Date
+scalar Function
+scalar Polynomial
+schema {
+  mutation: Mutation
+  mutation: RootMutationType
+  query: Query
+  query: RootQueryType
+  subscription: Subscription
+}
+
+type Billing {
+  trialDaysLeft: Int
+  plan: BillingPlan
+  card: Card
+  nextPaymentDue: String
+}
+
+type Card {
+  lastFourDigits: String
+  type: String
+}
+
+type Company {
+  id: ID
+  name: String
+}
+
+type CurrentUser {
+  id: ID
+  authToken: String
+  firstName: String
+  lastName: String
+  email: String
+  mobile: String
+  isOwner: Boolean
+  company: Company
+}
+
+type Product {
+  id: ID!
+  name: String!
+  shortDescription: String
+}
+
+type Query {
+  # ### GET products
+  #
+  # _Arguments_
+  # - **id**: Product's id (optional)
+  products(id: Int): [Product]
+  # ### GET all users
+  #
+  students: Students
+  # ### GET all teachers
+  #
+  teachers: Teachers
+  # ### GET variants
+  #
+  # _Arguments_
+  # - **id**: Variant's id (optional)
+  variants(id: Int): [Variant]
+}
+
+type Question {
+  creationDate: String
+  id: ID!
+  name: String!
+  text: String!
+  textA: String!
+  textB: String!
+  textC: String!
+}
+
+type Questions {
+  data: [Question]
+  cursor: ID
+}
+
+type RootMutationType {
+  registerUser(email: String!, invitationToken: String, password: String!): CurrentUser
+  registerCompany(name: String!): Company
+  resetPassword(password: String!, resetPasswordToken: String!): CurrentUser
+  login(email: String!, password: String!): CurrentUser
+  logout: CurrentUser
+  updateBilling(input: UpdateBillingInput!): Billing
+}
+
+type RootQueryType {
+  currentUser: CurrentUser
+  billing: Billing
+}
+
+type Student {
+  id: ID!
+  creationDate: String
+  firstname: String!
+  middlename: String
+  lastname: String!
+  age: Int!
+  gender: String
+  nickname: String!
+  questions: Questions
+}
+
+type Students {
+  data: [Student]
+  cursor: ID
+}
+
+type Teacher {
+  id: ID!
+  creationDate: String
+  firstname: String!
+  middlename: String
+  lastname: String!
+  age: Int!
+  gender: String
+  title: String!
+}
+
+type Teachers {
+  data: [Teacher]
+  cursor: ID
+}
+
+type Variant {
+  id: ID!
+  name: String!
+  shortDescription: String
+}
+
+input AvatarOptions {
+  format: String
+  filter: String
+}
+
+enum BillingPlan {
+  FREE
+  SOLO
+  TEAM
+}
